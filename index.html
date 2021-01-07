@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+      
+      #textInput{
+          width: 300px;
+          padding: 5px 0 5px 10px;
+          background-color: #ddd;
+          outline: none;
+          border: none;
+          margin: 10px 0;
+          font-size: 17px;
+          box-sizing: border-box;
+      }
+      #date{
+        width: 300px;
+          padding: 5px 0 5px 10px;
+          background-color: #ddd;
+          outline: none;
+          border: none;
+          margin: 20px 0 0;
+          font-size: 17px;
+          box-sizing: border-box;
+      }
+      label{
+          display: inline-block;
+          background-color: #ddd;
+          width: 300px;
+        box-sizing: border-box;
+          padding: 10px 0 10px 10px;
+          margin-bottom: 10px;
+      }
+      button{
+          display: block;
+          width: 300px;
+          font-size: 17px;
+          padding: 10px 5px;
+          margin: 10px auto;
+      }
+     
+    </style>
+  </head>
+  <body>
+    
+   
+     
+ <div style="width: 300px;">
+    <input type="text" placeholder="Date"  onChange="uploadDate(event)" id="date">
+    <br/>
+    <input type="number" placeholder="enter MRP"  onChange="uploadText(event)" id="textInput">
+    <br/>
+    <label>
+        <input type="file" onChange="uploadImage(event)" id="imageInput" />
+    </label>
+    <br/>
+    <canvas widt="300px" height="400px" id="canvas"> </canvas>
+    <br/>
+    <button onclick="download()"> download</button>
+ </div>
+   
+
+
+    <script>
+    
+      const canvas = document.getElementById("canvas");
+      
+      const ctx = canvas.getContext("2d");
+      
+      const bgImage=new Image()
+      bgImage.onload=function(){
+          ctx.drawImage(bgImage,0,0,300,400)
+      }
+      bgImage.src="./vpstore bgimage.jpg"
+      
+      
+      ctx.strokeStyle = "#ddd";
+      ctx.strokeRect(50, 50, 200, 200);
+      const reader=new FileReader()
+      const img=new Image()
+
+      const uploadImage=(e)=>{
+        
+          reader.onload=()=>{
+              img.onload=()=>{
+                  
+                ctx.drawImage(img,55,55,190,190)
+              }
+              img.src=reader.result
+              
+          }
+          reader.readAsDataURL(e.target.files[0])
+      }
+      const uploadText=(e)=>{
+         
+          ctx.fillStyle="#184d47"
+            ctx.font="35px serif"
+            ctx.fillText(`Rs : ${e.target.value} /KG`,66,290)
+
+      }
+      const uploadDate=(e)=>{
+         
+          ctx.fillStyle="#184d47"
+            ctx.font="25px serif"
+            ctx.fillText(e.target.value,90,40)
+
+      }
+      const download=()=>{
+          const image=canvas.toDataURL()
+          const link=document.createElement("a")
+          link.href=image
+          console.log(image);
+          link.download="image.jpeg"
+          link.click()
+          location.reload()
+
+        
+      }
+      
+      
+   
+    </script>
+  </body>
+</html>
